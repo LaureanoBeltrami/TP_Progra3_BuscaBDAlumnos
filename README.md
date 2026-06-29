@@ -16,13 +16,13 @@ cd BuscaBDAlumnos
 dotnet run
 ```
 
-La cadena de conexion usada es:
+La aplicacion pide:
 
-```text
-Server=127.0.0.1;Port=3306;Database=prog3n3;Uid=root;Pwd=root;
-```
+- Legajo del alumno a buscar.
+- Usuario de MySQL. Si se presiona Enter, usa `root`.
+- Contrasenia de MySQL. Si no tiene, presionar Enter.
 
-Si tu MySQL usa otra clave, usuario o base de datos, modificar la constante `ConnectionString` en `BuscaBDAlumnos/ListaBDAlumnos.cs`.
+La base configurada es `prog3n3`. Si se necesita cambiar servidor, puerto o base de datos, modificar el metodo `CrearConnectionString` en `BuscaBDAlumnos/ListaBDAlumnos.cs`.
 
 ## Archivos principales
 

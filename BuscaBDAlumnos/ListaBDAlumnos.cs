@@ -18,8 +18,6 @@ namespace BuscaBDAlumnos;
 
 internal class Program
 {
-    private const string ConnectionString = "Server=127.0.0.1;Port=3306;Database=prog3n3;Uid=root;Pwd=root;";
-
     private static void Main(string[] args)
     {
         Console.WriteLine("BUSCA BD ALUMNOS");
@@ -38,7 +36,9 @@ internal class Program
 
         try
         {
-            using MySqlConnection conexion = new(ConnectionString);
+            string connectionString = CrearConnectionString();
+
+            using MySqlConnection conexion = new(connectionString);
             conexion.Open();
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -81,6 +81,57 @@ internal class Program
             MostrarError("Ocurrio un error inesperado:");
             Console.WriteLine(ex.Message);
         }
+    }
+
+    private static string CrearConnectionString()
+    {
+        Console.Write("Usuario MySQL (Enter para root): ");
+        string? usuario = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(usuario))
+        {
+            usuario = "root";
+        }
+
+        Console.Write("Contrasenia MySQL (Enter si no tiene): ");
+        string contrasenia = LeerContrasenia();
+
+        MySqlConnectionStringBuilder builder = new()
+        {
+            Server = "127.0.0.1",
+            Port = 3306,
+            Database = "prog3n3",
+            UserID = usuario,
+            Password = contrasenia
+        };
+
+        return builder.ConnectionString;
+    }
+
+    private static string LeerContrasenia()
+    {
+        string contrasenia = "";
+        ConsoleKeyInfo tecla;
+
+        while ((tecla = Console.ReadKey(intercept: true)).Key != ConsoleKey.Enter)
+        {
+            if (tecla.Key == ConsoleKey.Backspace)
+            {
+                if (contrasenia.Length > 0)
+                {
+                    contrasenia = contrasenia[..^1];
+                    Console.Write("\b \b");
+                }
+
+                continue;
+            }
+
+            contrasenia += tecla.KeyChar;
+            Console.Write("*");
+        }
+
+        Console.WriteLine();
+        return contrasenia;
     }
 
     private static void MostrarError(string mensaje)
