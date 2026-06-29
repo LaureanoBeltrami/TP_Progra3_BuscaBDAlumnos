@@ -1,0 +1,38 @@
+CREATE DATABASE IF NOT EXISTS prog3n3
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+USE prog3n3;
+
+CREATE TABLE IF NOT EXISTS alumnos (
+    legajo INT NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    carrera ENUM('Tecnico Programacion', 'Desarrollo Web', 'Dev Ops') NOT NULL,
+    turno ENUM('manana', 'noche') NOT NULL,
+    fecha_inscripcion DATE NOT NULL,
+    PRIMARY KEY (legajo)
+) ENGINE=InnoDB;
+
+INSERT INTO alumnos (legajo, nombre, apellido, email, carrera, turno, fecha_inscripcion) VALUES
+(30154879, 'Carlos', 'Gomez', 'carlos.gomez@frh.utn.edu.ar', 'Tecnico Programacion', 'noche', '2026-02-10'),
+(32451987, 'Ana', 'Rodriguez', 'ana.rodriguez@frh.utn.edu.ar', 'Desarrollo Web', 'manana', '2026-02-11'),
+(34875124, 'Mariano', 'Fernandez', 'mariano.fernandez@frh.utn.edu.ar', 'Dev Ops', 'noche', '2026-02-11'),
+(35124987, 'Sofia', 'Lopez', 'sofia.lopez@frh.utn.edu.ar', 'Tecnico Programacion', 'manana', '2026-02-12'),
+(36984125, 'Diego', 'Martinez', 'diego.martinez@frh.utn.edu.ar', 'Desarrollo Web', 'noche', '2026-02-12'),
+(37214589, 'Laura', 'Garcia', 'laura.garcia@frh.utn.edu.ar', 'Dev Ops', 'manana', '2026-02-13'),
+(38451296, 'Esteban', 'Perez', 'esteban.perez@frh.utn.edu.ar', 'Tecnico Programacion', 'noche', '2026-02-15'),
+(39124578, 'Natalia', 'Diaz', 'natalia.diaz@frh.utn.edu.ar', 'Desarrollo Web', 'manana', '2026-02-16'),
+(40258963, 'Lucas', 'Sanchez', 'lucas.sanchez@frh.utn.edu.ar', 'Dev Ops', 'noche', '2026-02-16'),
+(41357412, 'Florencia', 'Romero', 'florencia.romero@frh.utn.edu.ar', 'Tecnico Programacion', 'manana', '2026-02-17'),
+(42148963, 'Gonzalo', 'Alvarez', 'gonzalo.alvarez@frh.utn.edu.ar', 'Desarrollo Web', 'noche', '2026-02-18'),
+(43521478, 'Valentina', 'Torres', 'valentina.torres@frh.utn.edu.ar', 'Dev Ops', 'manana', '2026-02-19'),
+(44125896, 'Martin', 'Ruiz', 'martin.ruiz@frh.utn.edu.ar', 'Tecnico Programacion', 'noche', '2026-02-19'),
+(45236987, 'Camila', 'Benitez', 'camila.benitez@frh.utn.edu.ar', 'Desarrollo Web', 'manana', '2026-02-20'),
+(45874123, 'Nicolas', 'Acosta', 'nicolas.acosta@frh.utn.edu.ar', 'Dev Ops', 'noche', '2026-02-22'),
+(46215487, 'Julieta', 'Silva', 'julieta.silva@frh.utn.edu.ar', 'Tecnico Programacion', 'manana', '2026-02-23'),
+(46985214, 'Facundo', 'Pereyra', 'facundo.pereyra@frh.utn.edu.ar', 'Desarrollo Web', 'noche', '2026-02-24'),
+(47214569, 'Micaela', 'Rojas', 'micaela.rojas@frh.utn.edu.ar', 'Dev Ops', 'manana', '2026-02-25'),
+(47654128, 'Tomas', 'Marconi', 'tomas.marconi@frh.utn.edu.ar', 'Tecnico Programacion', 'noche', '2026-02-25'),
+(48021547, 'Abril', 'Mendoza', 'abril.mendoza@frh.utn.edu.ar', 'Desarrollo Web', 'manana', '2026-02-26');

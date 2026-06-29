@@ -18,7 +18,7 @@ namespace BuscaBDAlumnos;
 
 internal class Program
 {
-    private const string ConnectionString = "Server=127.0.0.1;Port=3306;Database=mibd;Uid=root;Pwd=root;";
+    private const string ConnectionString = "Server=127.0.0.1;Port=3306;Database=prog3n3;Uid=root;Pwd=root;";
 
     private static void Main(string[] args)
     {

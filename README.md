@@ -6,7 +6,7 @@ Aplicacion de consola en C# basada en `ListaBDAlumnos.cs` del repositorio de la 
 
 - .NET SDK 10 o superior
 - MySQL en ejecucion
-- Base de datos `mibd`
+- Base de datos `prog3n3`
 - Tabla `alumnos` con los campos `legajo`, `nombre`, `apellido`, `email`, `carrera` y `turno`
 
 ## Como ejecutar
@@ -19,7 +19,7 @@ dotnet run
 La cadena de conexion usada es:
 
 ```text
-Server=127.0.0.1;Port=3306;Database=mibd;Uid=root;Pwd=root;
+Server=127.0.0.1;Port=3306;Database=prog3n3;Uid=root;Pwd=root;
 ```
 
 Si tu MySQL usa otra clave, usuario o base de datos, modificar la constante `ConnectionString` en `BuscaBDAlumnos/ListaBDAlumnos.cs`.
