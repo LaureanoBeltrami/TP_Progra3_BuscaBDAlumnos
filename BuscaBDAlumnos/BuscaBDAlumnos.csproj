@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="alumnos.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="MySql.Data" Version="9.7.0" />
   </ItemGroup>
 
 </Project>

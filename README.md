@@ -1,10 +1,13 @@
 # BuscaBDAlumnos
 
-Aplicacion de consola en C# que busca un alumno por legajo y muestra sus datos por pantalla.
+Aplicacion de consola en C# basada en `ListaBDAlumnos.cs` del repositorio de la catedra. Se conecta a una base de datos MySQL, pide un legajo por consola y muestra los datos del alumno si existe.
 
 ## Requisitos
 
 - .NET SDK 10 o superior
+- MySQL en ejecucion
+- Base de datos `mibd`
+- Tabla `alumnos` con los campos `legajo`, `nombre`, `apellido`, `email`, `carrera` y `turno`
 
 ## Como ejecutar
 
@@ -13,17 +16,15 @@ cd BuscaBDAlumnos
 dotnet run
 ```
 
-Cuando la aplicacion lo indique, ingresar un legajo. Ejemplos disponibles:
+La cadena de conexion usada es:
 
-- 1001
-- 1002
-- 1003
-- 1004
-- 1005
+```text
+Server=127.0.0.1;Port=3306;Database=mibd;Uid=root;Pwd=root;
+```
+
+Si tu MySQL usa otra clave, usuario o base de datos, modificar la constante `ConnectionString` en `BuscaBDAlumnos/ListaBDAlumnos.cs`.
 
 ## Archivos principales
 
-- `Program.cs`: pide el legajo, muestra el resultado y maneja excepciones.
-- `ListaBDAlumnos.cs`: lee la base de alumnos y busca por legajo usando `using` para cerrar correctamente el recurso.
-- `Alumno.cs`: modelo de datos del alumno.
-- `alumnos.csv`: base de alumnos de ejemplo.
+- `BuscaBDAlumnos/ListaBDAlumnos.cs`: programa principal. Usa `using` para cerrar `MySqlConnection`, `MySqlCommand` y `MySqlDataReader`, y maneja excepciones con `try...catch`.
+- `BuscaBDAlumnos/BuscaBDAlumnos.csproj`: referencia el paquete `MySql.Data`.

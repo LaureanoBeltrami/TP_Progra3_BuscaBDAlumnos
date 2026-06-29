@@ -1,70 +1,92 @@
+/*===============================================================================
+
+PROGRAMACION III - BuscaBDAlumnos
+
+Basado en el ejemplo ListaBDAlumnos.cs:
+https://github.com/ocantone/UTN_2026_Program_III/tree/main/Clase22_CSMySQL/ListaBDAlumnos
+
+Antes de correr el proyecto, se debe tener instalado el driver de MySQL:
+dotnet add package MySql.Data --source https://api.nuget.org/v3/index.json
+
+Este proyecto ya incluye la referencia al paquete en BuscaBDAlumnos.csproj.
+
+===============================================================================*/
+
+using MySql.Data.MySqlClient;
+
 namespace BuscaBDAlumnos;
 
-public sealed class ListaBDAlumnos
+internal class Program
 {
-    private readonly string _rutaBaseDatos;
+    private const string ConnectionString = "Server=127.0.0.1;Port=3306;Database=mibd;Uid=root;Pwd=root;";
 
-    public ListaBDAlumnos(string rutaBaseDatos)
+    private static void Main(string[] args)
     {
-        if (string.IsNullOrWhiteSpace(rutaBaseDatos))
+        Console.WriteLine("BUSCA BD ALUMNOS");
+        Console.WriteLine("================");
+        Console.Write("Ingrese el legajo del alumno: ");
+
+        string? entrada = Console.ReadLine();
+
+        if (!int.TryParse(entrada, out int legajo) || legajo <= 0)
         {
-            throw new ArgumentException("La ruta de la base de alumnos no puede estar vacia.", nameof(rutaBaseDatos));
+            MostrarError("El legajo ingresado no es valido.");
+            return;
         }
 
-        _rutaBaseDatos = rutaBaseDatos;
-    }
+        Console.WriteLine("\nIntentando conectar a la base de datos MySQL...");
 
-    public Alumno? BuscarPorLegajo(int legajoBuscado)
-    {
-        if (legajoBuscado <= 0)
+        try
         {
-            throw new ArgumentOutOfRangeException(nameof(legajoBuscado), "El legajo debe ser mayor a cero.");
-        }
+            using MySqlConnection conexion = new(ConnectionString);
+            conexion.Open();
 
-        using StreamReader lector = new(_rutaBaseDatos);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Conexion exitosa al servidor de MySQL.\n");
+            Console.ResetColor();
 
-        string? linea = lector.ReadLine();
-        int numeroLinea = 1;
+            string consulta = """
+                SELECT legajo, nombre, apellido, email, carrera, turno
+                FROM alumnos
+                WHERE legajo = @legajo
+                """;
 
-        while ((linea = lector.ReadLine()) is not null)
-        {
-            numeroLinea++;
+            using MySqlCommand comando = new(consulta, conexion);
+            comando.Parameters.AddWithValue("@legajo", legajo);
 
-            if (string.IsNullOrWhiteSpace(linea))
+            using MySqlDataReader lector = comando.ExecuteReader();
+
+            if (!lector.Read())
             {
-                continue;
+                MostrarError($"No se encontro ningun alumno con legajo {legajo}.");
+                return;
             }
 
-            Alumno alumno = ConvertirLineaEnAlumno(linea, numeroLinea);
-
-            if (alumno.Legajo == legajoBuscado)
-            {
-                return alumno;
-            }
+            Console.WriteLine("ALUMNO ENCONTRADO");
+            Console.WriteLine("-----------------");
+            Console.WriteLine($"Legajo: {lector["legajo"]}");
+            Console.WriteLine($"Nombre: {lector["nombre"]}");
+            Console.WriteLine($"Apellido: {lector["apellido"]}");
+            Console.WriteLine($"Email: {lector["email"]}");
+            Console.WriteLine($"Carrera: {lector["carrera"]}");
+            Console.WriteLine($"Turno: {lector["turno"]}");
         }
-
-        return null;
+        catch (MySqlException ex)
+        {
+            MostrarError("Ocurrio un error al intentar operar con la base de datos:");
+            Console.WriteLine(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            MostrarError("Ocurrio un error inesperado:");
+            Console.WriteLine(ex.Message);
+        }
     }
 
-    private static Alumno ConvertirLineaEnAlumno(string linea, int numeroLinea)
+    private static void MostrarError(string mensaje)
     {
-        string[] campos = linea.Split(';');
-
-        if (campos.Length != 5)
-        {
-            throw new FormatException($"La linea {numeroLinea} debe tener 5 campos separados por punto y coma.");
-        }
-
-        if (!int.TryParse(campos[0].Trim(), out int legajo))
-        {
-            throw new FormatException($"El legajo de la linea {numeroLinea} no es numerico.");
-        }
-
-        return new Alumno(
-            legajo,
-            campos[1].Trim(),
-            campos[2].Trim(),
-            campos[3].Trim(),
-            campos[4].Trim());
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(mensaje);
+        Console.ResetColor();
     }
 }
